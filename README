@@ -1,0 +1,48 @@
+# README
+
+## Google Ads Data Export Script
+
+### Description
+This script is designed to automate the process of exporting Google Ads data, specifically Responsive Search Ads (RSA) and Asset Performance, into a Google Spreadsheet. It fetches data for the past two months, providing insights into campaign names, ad group names, IDs, ad strengths, and various asset performance metrics.
+
+### Setup and Configuration
+
+#### Prerequisites
+- Access to a Google Ads account with active campaigns.
+- A Google Cloud Project with the Google Sheets API enabled.
+- Basic familiarity with Google Apps Script.
+
+#### Configuration Steps
+1. **Spreadsheet Setup**: 
+   - Create a new Google Spreadsheet or use an existing one.
+   - Copy the Spreadsheet URL.
+   
+2. **Script Configuration**:
+   - Open the Google Apps Script editor linked to your Google Spreadsheet.
+   - Paste the provided script into the script editor.
+   - In the `config` object at the top of the script:
+     - Set `LOG` to `true` or `false` based on your preference for logging.
+     - Replace the `SPREADSHEET_URL` with the URL of your Google Spreadsheet.
+     - Ensure `SHEET_NAME` contains the names of the sheets where you want to export the data.
+
+3. **Google Ads API Authorization**:
+   - The first time you run the script, you will be prompted to authorize it to access your Google Ads data and Google Sheets.
+
+### Usage
+Run the `main` function within the Google Apps Script editor. The script will automatically:
+- Calculate the date range for the past two months.
+- Set up queries to fetch data from Google Ads.
+- Export the fetched data into the specified sheets in your Google Spreadsheet.
+
+### Troubleshooting
+If you encounter any errors:
+- Ensure that the Google Ads account has Responsive Search Ads and relevant assets.
+- Check if the Google Sheets URL in the `config` is correct.
+- Verify that you have the necessary permissions to access the Google Ads account and Google Spreadsheet.
+
+### Contributions
+For contributions or modifications to this script, please fork the repository, make your changes, and submit a pull request for review.
+
+---
+
+**Note**: This script is provided as-is, and users should adapt it as necessary for their specific Google Ads and Google Sheets setups.
