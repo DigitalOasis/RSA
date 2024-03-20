@@ -1,0 +1,131 @@
+// Copyright 2024. Increase BV. All Rights Reserved.
+//
+// Created By: Digital Oasis
+// for Increase B.V.
+//
+// Created: 04-03-2024
+// Last update: 
+//
+// ABOUT THE SCRIPT
+// This script will exports RSA and assets performance and the corresponding fields.
+// 
+// 
+//
+
+const clientCode= ''
+let NumberOfDays=30 //change the number of days required to be pulled
+let fromDate= '23/10/2023' // specify fromdate in dd/mm/yyyy format
+let toDate= '29/01/2024'   // specify todate in dd/mm/yyyy format
+
+var config = {
+  
+  LOG : true,
+  
+  // Make a copy of this script and copy the URL: https://docs.google.com/spreadsheets/d/1WvNSbaZi2dz3Uu74AIniKy5YLHctZ_6c6i0Gp2DQ8ns/copy
+  SPREADSHEET_URL : "https://docs.google.com/spreadsheets/d/1DMj-4pIDO1VMzGbFq2Mv6XtwpA8H875hZEGkhH3P8Ic/edit#gid=0",
+  SHEET_NAME : ["PMax Ad strength","RSA Asset Performance","PMax Asset Performance"],
+  QA_Query :[],
+  date: NumberOfDays,
+  fromDate: fromDate,
+  toDate: toDate
+  
+}
+
+
+function main() {
+  
+  if(config.SPREADSHEET_URL == "https://"){
+    throw Error("Make a copy of the sheet and paste the URL in the config \nhttps://docs.google.com/spreadsheets/d/1WvNSbaZi2dz3Uu74AIniKy5YLHctZ_6c6i0Gp2DQ8ns/copy");
+  }  
+  
+  
+  
+    // Calculate date range for the past two months
+
+  
+  
+  let CurrentaccountName = AdsApp.currentAccount().getName();
+  let tag = clientCode ? clientCode : CurrentaccountName;
+  var ss = SpreadsheetApp.openByUrl(config.SPREADSHEET_URL);
+  ss.rename(tag + ' DO RSA & PMax Insights - digitaloasis.com.au');
+  
+  let defaultSettings= {
+    NumberofDays: config.date,
+    fromDate: config.fromDate,
+    toDate: config.toDate
+  };
+  
+  
+  //let settings= updateVariablesFromSheet(ss, defaultSettings);
+  let numberofdays= defaultSettings.NumberofDays;
+  let fromDate = defaultSettings.fromDate;
+  let toDate = defaultSettings.toDate;
+  
+  
+  let timeZone= AdsApp.currentAccount().getTimeZone();
+  let dateCheck = fromDate !== undefined && toDate !== undefined ? 1 : 0;
+  
+  let today = new Date(), yesterday = new Date(), startDate = new Date();
+  yesterday.setDate(today.getDate() - 1);
+  startDate.setDate(today.getDate() - numberofdays);
+  
+  let formattedStartDate = Utilities.formatDate(startDate, timeZone, 'yyyy-MM-dd');
+  let formattedYesterday = Utilities.formatDate(yesterday, timeZone, 'yyyy-MM-dd');
+  
+  function formatDate(dateString) {
+    // Use a regular expression to extract date parts
+    let dateParts = dateString.match(/(\d{2})\/(\d{2})\/(\d{4})/);
+    if (!dateParts) {
+      throw new Error('Date is not in a valid format. Expected format dd/mm/yyyy.');
+    }
+    // Rearrange the date parts to 'yyyy-MM-dd' format
+    let formattedDate = `${dateParts[3]}-${dateParts[2]}-${dateParts[1]}`;
+    return formattedDate;
+  }
+
+  let formattedFromDate = dateCheck ? formatDate(fromDate) : undefined;
+  let formattedToDate   = dateCheck ? formatDate(toDate) : undefined;
+  
+  let DateRangeQuery = dateCheck ? `WHERE segments.date BETWEEN "${formattedFromDate}" AND "${formattedToDate}"` : `WHERE segments.date BETWEEN "${formattedStartDate}" AND "${formattedYesterday}"`;
+
+  config.QA_Query = [ "SELECT CampaignName, AdGroupName, Id, AdStrengthInfo " +
+                     "FROM AD_PERFORMANCE_REPORT " +
+                     "WHERE AdType = RESPONSIVE_SEARCH_AD " +
+                     "AND CampaignStatus = ENABLED " +
+                     "AND AdGroupStatus = ENABLED " +
+                     "AND Status = ENABLED" +
+                     DateRangeQuery ,"SELECT campaign.name, campaign.status, ad_group.name, ad_group_ad.status, asset.text_asset.text, ad_group_ad_asset_view.field_type, ad_group_ad_asset_view.performance_label, ad_group_ad_asset_view.pinned_field, metrics.impressions FROM ad_group_ad_asset_view "+ DateRangeQuery + 
+                     " AND ad_group.status != 'REMOVED' AND metrics.impressions != 0 ORDER BY ad_group_ad_asset_view.performance_label DESC" ,
+                     "SELECT campaign.name, campaign.status, asset_group.name, asset_group.status, asset.text_asset.text, asset_group_asset.field_type, asset_group_asset.performance_label FROM asset_group_asset WHERE asset_group_asset.performance_label!= 'UNKNOWN' ORDER BY asset_group_asset.performance_label DESC" ,
+                     ]
+  
+  for (let i=1; i < config.SHEET_NAME.length; i++){
+    
+    var sheet = ss.getSheetByName(config.SHEET_NAME[i]);
+
+    var report = AdsApp.report(config.QA_Query[i]);
+    
+    // Export data and clean up sheet
+    sheet.clearContents();
+    report.exportToSheet(sheet);
+    sheet.autoResizeColumns(1, sheet.getLastColumn());
+  
+  if(sheet.getMaxColumns() - sheet.getLastColumn() != 0){
+    sheet.deleteColumns(sheet.getLastColumn() + 1, sheet.getMaxColumns() - sheet.getLastColumn());
+  }
+  }
+  if(config.LOG === true){
+    
+    var rows = report.rows();
+    while(rows.hasNext()){
+      var row = rows.next();
+
+      Logger.log("Campaign: " + row["campaign.name"] + " - Adgroup: " + row["asset_group.name"] + " - " + row["asset_group.ad_strength"]);
+    } // rowIterator
+    
+  }
+  
+  Logger.log("Export completed");
+  
+} // function main()
+
