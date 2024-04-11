@@ -12,17 +12,17 @@
 // specifically Responsive Search Ads (RSA) Asset Performance into a Google Spreadsheet from a single Google Ads account.
 // It fetches data for the specified period, providing insights into various asset performance for ad copy headlines and descriptions.
 // Currently, in the UI, Google only shows performance for one ad at a time and shows the performance column after most assets have reached 2,000 Impressions.
-// Through this script we can export all RSA assets at once, and also visualise the asset performance even if in learning or pending.
+// Through this script, we can export all RSA assets at once and also visualise the asset performance, even if in learning or pending.
 //
-// Digital Oasis is a Performance Marketing Agency based in Melbourne, who's joining the growing movement in the industry to deliver more visibility to marketers across the globe.
-// Follow us on LinkedIn  more scripts, updates and improvements to come! 
+// Digital Oasis is a Performance Marketing Agency based in Melbourne that's joining the growing movement in the industry to deliver more visibility to marketers across the globe.
+// Follow us on LinkedIn for more scripts, updates and improvements to come! 
 // Francesco Greco: https://www.linkedin.com/in/francescogreco/
 // Digital Oasis Australia: https://www.linkedin.com/company/digital-oasis-australia/ 
 //
-//This script will exports RSA and assets performance and the corresponding fields.
-//The script exports out Campaign Name, Campaign Status, AdGroup Name,AdGroup Status, Ad id, AD Strength, Ad Status, Asset Copy Text, Asset Type, Performance Label,Asset Pinned position,Impressions 
-//into excel spread.
-//Please specify DATERANGE. If you do not specify a fromDate and toDate then the daterange DATERANGE to last 90 days
+//This script will export RSA and assets performance and the corresponding fields.
+//The script exports out Campaign Name, Campaign Status, AdGroup Name, AdGroup Status, Ad id, AD Strength, Ad Status, Asset Copy Text, Asset Type, Performance Label, Asset Pinned position, Impressions 
+//into Google Sheet.
+//Please specify DATERANGE. If you do not specify a fromDate and toDate then the daterange DATERANGE would default to the Last 90 days
 // 
 
 const clientCode= ''
@@ -44,14 +44,11 @@ var config = {
   
 }
 
-
 function main() {
   
   if(config.SPREADSHEET_URL == "https://"){
-    throw Error("Make a copy of the sheet and paste the URL in the config \nhttps://docs.google.com/spreadsheets/d/1tqMeTkfQw8Ss7m6KeNq6Xi_gW-ONWwpVmFYjXHat0ko/copy");
+    throw Error("Make a copy of the sheet and paste the URL in the config https://docs.google.com/spreadsheets/d/1tqMeTkfQw8Ss7m6KeNq6Xi_gW-ONWwpVmFYjXHat0ko/copy");
   }  
-  
-  
  
   let CurrentaccountName = AdsApp.currentAccount().getName();
   let tag = clientCode ? clientCode : CurrentaccountName;
@@ -64,12 +61,10 @@ function main() {
     toDate: config.toDate
   };
   
-  
   //let settings= updateVariablesFromSheet(ss, defaultSettings);
   let numberofdays= defaultSettings.NumberofDays;
   let fromDate = defaultSettings.fromDate;
   let toDate = defaultSettings.toDate;
-  
   
   let timeZone= AdsApp.currentAccount().getTimeZone();
   let dateCheck = fromDate !== undefined && toDate !== undefined ? 1 : 0;
@@ -101,10 +96,8 @@ function main() {
                      " WHERE ad_group.status != 'REMOVED' AND metrics.impressions != 0 ORDER BY ad_group_ad_asset_view.performance_label DESC"
                      ]
   
-  for (let i=0; i < config.SHEET_NAME.length-1; i++){
-    
+  for (let i=0; i < config.SHEET_NAME.length-1; i++){  
     var sheet = ss.getSheetByName(config.SHEET_NAME[i]);
-
     var report = AdsApp.report(config.QA_Query[i]);
     
     // Export data and clean up sheet
@@ -112,7 +105,7 @@ function main() {
     report.exportToSheet(sheet);
 
     if(config.SHEET_NAME[i] == "RSA Asset Performance Data" ){
-        var customColumnNames = ["Campaign Name", "Campaign Status", "AdGroup Name","AdGroup Status", "Ad id", "AD Strength", "Ad Status", "Asset Copy Text", "Asset Type", "Performance Label", "Asset Pinned position", "Impressions"];
+        var customColumnNames = ["Campaign Name", "Campaign Status", "AdGroup Name", "AdGroup Status", "Ad id", "AD Strength", "Ad Status", "Asset Copy Text", "Asset Type", "Performance Label", "Asset Pinned position", "Impressions"];
         var range = sheet.getRange(1, 1, 1, customColumnNames.length);
         range.setValues([customColumnNames]);
   
@@ -124,8 +117,6 @@ function main() {
   }
   }
 
-  
   Logger.log("Export completed");
   
 } // function main()
-
