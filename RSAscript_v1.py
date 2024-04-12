@@ -1,42 +1,29 @@
-// Google Ads RSA Performance script v1 
-// Created By: Digital Oasis Australia
-// Fair Use Copyright 2024.
-// 
-// Created: 04-03-2024
-// Last update: 10-04-2024
+// Copyright 2024. Increase BV. All Rights Reserved.
 //
-// Make a copy of this script and copy the URL: https://docs.google.com/spreadsheets/d/1tqMeTkfQw8Ss7m6KeNq6Xi_gW-ONWwpVmFYjXHat0ko/copy
+// Created By: Digital Oasis
+// for Increase B.V.
+//
+// Created: 04-03-2024
+// Last update: 
 //
 // ABOUT THE SCRIPT
-// This script is designed to automate the process of exporting Google Ads data, 
-// specifically Responsive Search Ads (RSA) Asset Performance into a Google Spreadsheet from a single Google Ads account.
-// It fetches data for the specified period, providing insights into various asset performance for ad copy headlines and descriptions.
-// Currently, in the UI, Google only shows performance for one ad at a time and shows the performance column after most assets have reached 2,000 Impressions.
-// Through this script, we can export all RSA assets at once and also visualise the asset performance, even if in learning or pending.
-//
-// Digital Oasis is a Performance Marketing Agency based in Melbourne that's joining the growing movement in the industry to deliver more visibility to marketers across the globe.
-// Follow us on LinkedIn for more scripts, updates and improvements to come! 
-// Francesco Greco: https://www.linkedin.com/in/francescogreco/
-// Digital Oasis Australia: https://www.linkedin.com/company/digital-oasis-australia/ 
-//
-//This script will export RSA and assets performance and the corresponding fields.
-//The script exports out Campaign Name, Campaign Status, AdGroup Name, AdGroup Status, Ad id, AD Strength, Ad Status, Asset Copy Text, Asset Type, Performance Label, Asset Pinned position, Impressions 
-//into Google Sheet.
-//Please specify DATERANGE. If you do not specify a fromDate and toDate then the daterange DATERANGE would default to the Last 90 days
+//This script will exports RSA and assets performance and the corresponding fields.
+//The script exports out Campaign Name, Campaign Status, AdGroup Name,AdGroup Status, Ad id, AD Strength, Ad Status, Asset Copy Text, Asset Type, Performance Label,Asset Pinned position,Impressions 
+//into excel spread.
+//Please specify DATERANGE. If you do not specify a fromDate and toDate then the daterange DATERANGE to last 90 days
 // 
-
 const clientCode= ''
-let NumberOfDays= //change the number of days required to be pulled
-let fromDate= '' // specify fromdate in dd/mm/yyyy format
-let toDate= ''   // specify todate in dd/mm/yyyy format
+let NumberOfDays=90 //change the number of days required to be pulled
+let fromDate= '01/10/2023' // specify fromdate in dd/mm/yyyy format
+let toDate= '31/12/2023'   // specify todate in dd/mm/yyyy format
 
 var config = {
   
   LOG : true,
   
-  // Make a copy of this script and copy the URL: https://docs.google.com/spreadsheets/d/1tqMeTkfQw8Ss7m6KeNq6Xi_gW-ONWwpVmFYjXHat0ko/copy
-  SPREADSHEET_URL : "",
-  SHEET_NAME : ["RSA Asset Performance Data"],
+  // Make a copy of this script and copy the URL: https://docs.google.com/spreadsheets/d/1WvNSbaZi2dz3Uu74AIniKy5YLHctZ_6c6i0Gp2DQ8ns/copy
+  SPREADSHEET_URL : "https://docs.google.com/spreadsheets/d/1wakQjIXaVIqQatlqGBdYDaglbQml9hMTDuZGqcDiNjU/edit#gid=980901217",
+  SHEET_NAME : ["RSA Asset Performance"],
   QA_Query :[],
   date: NumberOfDays,
   fromDate: fromDate,
@@ -44,11 +31,14 @@ var config = {
   
 }
 
+
 function main() {
   
   if(config.SPREADSHEET_URL == "https://"){
-    throw Error("Make a copy of the sheet and paste the URL in the config https://docs.google.com/spreadsheets/d/1tqMeTkfQw8Ss7m6KeNq6Xi_gW-ONWwpVmFYjXHat0ko/copy");
+    throw Error("Make a copy of the sheet and paste the URL in the config \nhttps://docs.google.com/spreadsheets/d/1WvNSbaZi2dz3Uu74AIniKy5YLHctZ_6c6i0Gp2DQ8ns/copy");
   }  
+  
+  
  
   let CurrentaccountName = AdsApp.currentAccount().getName();
   let tag = clientCode ? clientCode : CurrentaccountName;
@@ -61,10 +51,12 @@ function main() {
     toDate: config.toDate
   };
   
+  
   //let settings= updateVariablesFromSheet(ss, defaultSettings);
   let numberofdays= defaultSettings.NumberofDays;
   let fromDate = defaultSettings.fromDate;
   let toDate = defaultSettings.toDate;
+  
   
   let timeZone= AdsApp.currentAccount().getTimeZone();
   let dateCheck = fromDate !== undefined && toDate !== undefined ? 1 : 0;
@@ -96,16 +88,18 @@ function main() {
                      " WHERE ad_group.status != 'REMOVED' AND metrics.impressions != 0 ORDER BY ad_group_ad_asset_view.performance_label DESC"
                      ]
   
-  for (let i=0; i < config.SHEET_NAME.length-1; i++){  
+  for (let i=0; i < config.SHEET_NAME.length-1; i++){
+    
     var sheet = ss.getSheetByName(config.SHEET_NAME[i]);
+
     var report = AdsApp.report(config.QA_Query[i]);
     
     // Export data and clean up sheet
     sheet.clearContents();
     report.exportToSheet(sheet);
 
-    if(config.SHEET_NAME[i] == "RSA Asset Performance Data" ){
-        var customColumnNames = ["Campaign Name", "Campaign Status", "AdGroup Name", "AdGroup Status", "Ad id", "AD Strength", "Ad Status", "Asset Copy Text", "Asset Type", "Performance Label", "Asset Pinned position", "Impressions"];
+    if(config.SHEET_NAME[i] == "RSA Asset Performance" ){
+        var customColumnNames = ["Campaign Name", "Campaign Status", "AdGroup Name","AdGroup Status", "Ad id", "AD Strength", "Ad Status", "Asset Copy Text", "Asset Type", "Performance Label", "Asset Pinned position", "Impressions"];
         var range = sheet.getRange(1, 1, 1, customColumnNames.length);
         range.setValues([customColumnNames]);
   
@@ -117,6 +111,8 @@ function main() {
   }
   }
 
+  
   Logger.log("Export completed");
   
 } // function main()
+
