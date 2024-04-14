@@ -12,22 +12,24 @@
 // ABOUT THE SCRIPT
 // This script is designed to automate the process of exporting Google Ads data, 
 // specifically Responsive Search Ads (RSA) Asset Performance into a Google Spreadsheet from a single Google Ads account.
-// It fetches data for the specified period, providing insights into various asset performance for ad copy headlines and descriptions.
-// Currently, in the UI, Google only shows performance for one ad at a time and shows the performance column after most assets have reached 2,000 Impressions.
-// Through this script we can export all RSA assets at once, and also visualise the asset performance even if in learning or pending.
+// It fetches data for the specified period, providing insights into various asset performances\ for ad copy headlines and descriptions.
+// Currently, in the UI, Google only shows performance for one ad at a time, and the asset performance column after most assets have reached 2,000 Impressions.
+// Through this script, we can export all RSA assets at once and also visualise the asset performance, even if it is in learning or pending.
 //
 // Digital Oasis is a Performance Marketing Agency based in Melbourne, who's joining the growing movement in the industry to deliver more visibility to marketers across the globe.
 //
-// Follow us on LinkedIn  more scripts, updates and improvements to come! 
+// Follow us on LinkedIn for more scripts, updates and improvements to come! 
 // Francesco Greco: https://www.linkedin.com/in/francescogreco/
-// Digital Oasis Australia: https://www.linkedin.com/company/digital-oasis-australia/ 
+// Digital Oasis Australia: https://www.linkedin.com/company/digital-oasis-australia/
+// Developed thanks to the contribution of Hakeem Quadri and Valentina Di Marco
 //
-const clientCode= ''
+
 //
 // Please specify a custom DATERANGE in fromDate and toDate --This Variables Cannot be Empty Strings
 // If you provide an invalid or undefined daterange, the script defaults to the Last 90 days, or any custom number in NumberOfDays.
 // 
 
+const clientCode= ''
 let fromDate= '01/01/2024' // you must specify fromdate in dd/mm/yyyy format
 let toDate= '01/01/2023'   // you must specify todate in dd/mm/yyyy format
 
@@ -40,7 +42,7 @@ var config = {
   // Make a copy of this script and copy the URL: https://docs.google.com/spreadsheets/d/1tqMeTkfQw8Ss7m6KeNq6Xi_gW-ONWwpVmFYjXHat0ko/copy and paste it within the "" below.
   //
 
-  SPREADSHEET_URL : "https://docs.google.com/spreadsheets/d/1tqMeTkfQw8Ss7m6KeNq6Xi_gW-ONWwpVmFYjXHat0ko/edit#gid=980901217",
+  SPREADSHEET_URL : "",
   SHEET_NAME : ["RSA Asset Performance Data"],
   QA_Query :[],
   date: NumberOfDays,
@@ -140,5 +142,5 @@ function main() {
 } 
 
 // 
-// Thanks for using our RSA Asset performance script, and please don't hesitate to share any feedback to improve it further!
+// Thanks for using our RSA Asset performance script. Please don't hesitate to share any feedback to improve it further!
 // 
