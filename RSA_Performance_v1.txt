@@ -11,8 +11,8 @@
 // This script is designed to automate the process of exporting Google Ads data, 
 // specifically Responsive Search Ads (RSA) Asset Performance into a Google Spreadsheet from a single Google Ads account.
 // It fetches data for the specified period, providing insights into various asset performances\ for ad copy headlines and descriptions.
-// Currently, in the UI, Google only shows performance for one ad at a time, and the asset performance column after most assets have reached 2,000 Impre`impre``ssions.
-// Through this script, we can export all RSA assets at once and also visualise the asset performance, even if it is in learning or pending.
+// Currently, in the UI, Google only shows performance for one ad at a time and the asset performance column after most assets have reached 2,000 Impressions.
+// Through this script, we can export all RSA assets at once and visualise the asset performance, whether it is in learning or pending.
 //
 // Digital Oasis is a Performance Marketing Agency based in Melbourne, who's joining the growing movement in the industry to deliver more visibility to marketers across the globe.
 //
@@ -26,7 +26,7 @@
 // User Configuration Section - Make your changes below
 // -----------------------------------------------------
 //
-// Make a copy of the template spreadsheet here : https://docs.google.com/spreadsheets/d/1tqMeTkfQw8Ss7m6KeNq6Xi_gW-ONWwpVmFYjXHat0ko/copy and paste it within the '' in SPREADSHEET URL.
+// Make a copy of the template spreadsheet here: https://docs.google.com/spreadsheets/d/1tqMeTkfQw8Ss7m6KeNq6Xi_gW-ONWwpVmFYjXHat0ko/copy and paste it within the '' in SPREADSHEET URL.
 //
 
 const clientCode= '' // this string will be added to the sheet name
