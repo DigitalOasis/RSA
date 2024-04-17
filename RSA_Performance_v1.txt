@@ -30,8 +30,8 @@
 //
 
 const clientCode= '' // this string will be added to the sheet name
-const SHEET_URL = "https://docs.google.com/spreadsheets/d/1cuyco4Dghl9A7Vn1HyqTZQTHye22apth-49SiajJoDM/edit#gid=980901217" //url where you want the Google Ads data exported to.
-const SHEET_NAME= "RSA Asset Performance Data"  // name of the spreadsheet you want the Google Ads data exported to.
+const SHEET_URL = '' //url where you want the Google Ads data exported to.
+const SHEET_NAME= 'RSA Asset Performance Data'  // name of the spreadsheet you want the Google Ads data exported to.
 
  
 // Please specify a custom DATERANGE in fromDate and toDate 
@@ -39,8 +39,8 @@ const SHEET_NAME= "RSA Asset Performance Data"  // name of the spreadsheet you w
 // 
 
 let NumberOfDays= 90 // can change the number of the Last X days to be pulled - REQUIRES A NUMBER FROM 30 TO A RECOMMENDED MAX OF 365 DAYS
-let fromDate= '31/01/2024' // you must specify fromdate in dd/mm/yyyy format
-let toDate= '28/02/2024'  // you must specify todate in dd/mm/yyyy format
+let fromDate= '' // you must specify fromdate in dd/mm/yyyy format
+let toDate= ''  // you must specify todate in dd/mm/yyyy format
 
 
 
