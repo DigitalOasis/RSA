@@ -3,7 +3,8 @@
 ## Google Ads Data Export Script
 
 ### Description
-This script is designed to automate the process of exporting Google Ads data, specifically Responsive Search Ads (RSA) and Asset Performance, into a Google Spreadsheet. It fetches data for the past two months, providing insights into campaign names, ad group names, IDs, ad strengths, and various asset performance metrics.
+This script is designed to automate exporting Google Ads data, specifically Responsive Search Ads (RSA) and Asset Performance, into a Google Spreadsheet. 
+It fetches data for the past two months, providing insights into campaign names, ad group names, IDs, ad strengths, and various asset performance metrics.
 
 ### Setup and Configuration
 
